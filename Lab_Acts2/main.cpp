@@ -40,7 +40,9 @@ class Arraylist : public List{
     // mo gawas ni siya sa act 1 
     void add(int num){
         if(size == capacity){
-            capacity += ceil(capacity / 2.0);
+            // capacity += ceil(capacity / 2.0);
+            capacity = ceil(capacity * 1.5);
+
             array = (int*) realloc( array ,capacity * sizeof(int));
         }
 
@@ -52,29 +54,32 @@ class Arraylist : public List{
         int rem;
         for(int i = 0; i < size; i++){
             if(num == array[i]){
-                rem = array[i];
+                rem = i;
                 for(int j = i; j < size - 1; j++){
                     array[j] = array[j + 1];
                 }
 
-                size--;
-                break;
+                array[size--] = 0;
             }
+
+            // depende ni siya sa instructions
+            // nakalimot ko huhu basta same2 rag logic
+            if(size < capacity * (2.0 / 3)){
+                // capacity -= floor(capacity * 0.25);
+
+                capacity = ceil(capacity * 0.7);
+
+                if(capacity < 5){
+                    capacity = 5;
+                } else {
+                    array = (int*) realloc(array, capacity * sizeof(int));
+                }
+                return rem;
+            }
+
         }
         
-        // depende ni siya sa instructions
-        // nakalimot ko huhu basta same2 rag logic
-        if(size <= floor(capacity * 2.0 / 3.0)){
-            capacity -= floor(capacity * 0.25);
-
-            if(capacity < 5){
-                capacity = 5;
-            } else {
-                array = (int*) realloc(array, capacity * sizeof(int));
-            }
-        }
-
-        return rem;
+        return -1;
     }
 
     int removeAt(int pos){
@@ -87,23 +92,23 @@ class Arraylist : public List{
                 }
 
                 size--;
-                break;
+
             }
+
         }
         
         // depende ni siya sa instructions
-        // nakalimot ko huhu basta same2 rag logic
-        if(size <= floor(capacity * 2.0 / 3.0)){
-            capacity -= floor(capacity * 0.25);
+            // nakalimot ko huhu basta same2 rag logic
+            if(size <= capacity * (2.0 / 3)){
+                capacity = floor(capacity * 0.7);
 
-            if(capacity < 5){
-                capacity = 5;
-            } else {
+                if(capacity < 5) capacity = 5;
+                    
                 array = (int*) realloc(array, capacity * sizeof(int));
+                    
             }
-        }
 
-        return rem;
+            return rem;
     }
 
     bool isEmpty(){
@@ -116,21 +121,22 @@ class Arraylist : public List{
             add(list->removeAt(1));
         }
 
-        // sorry kaayo guys below ani naa pani siya about like sa pag increase sa capacity
-        // nakalimot nako sa instruction pero sige lang sayun raman to and e remember lang 
-        // kay kanang naa sa taas kay mao na ang importante hehe
+        capacity = size * 1.25;
+        array = (int*) realloc(array, capacity * sizeof(int));
     }
 
     void print(){
-        if (size == 0){
-            cout << "Nothing left";
-            return;
+        cout << "Size: " << size << " / " << capacity << endl;
+        cout << "List: ";
+        for(int i = 0 ; i < capacity; i++){
+            if(i < size){
+                cout << array[i] << " ";
+            } else {
+                cout << " ? ";
+            }
         }
-        
-        cout << "Array: ";
-        for(int i = 0; i < size; i++){
-            cout << array[i] << " ";
-        }
+
+        cout << endl;
     }
 };
 
@@ -154,16 +160,21 @@ int main(){
 
                 curr->add(num);
                 break;
+            case 'r':  
+                int pos;
+                cout << "Enter pos: ";
+                cin >> pos;
+                curr->removeAt(pos);
+                break;
             case 's':
-                (curr == list1)? curr = list2 : curr = list1;
+                curr = (curr == list1)? list2 : list1;
                 (curr == list1)? cout << "List 1:" << endl : cout << "List 2:" << endl;
                 break;
             case 'c':
-                (curr == list1)? curr->combine(list2) : curr->combine(list1);
+                curr->combine((curr == list1)? list2 : list1);
                 break;
             case 'p':
                 curr->print();
-                cout << endl;
                 break;
             case 'x':
                 break;

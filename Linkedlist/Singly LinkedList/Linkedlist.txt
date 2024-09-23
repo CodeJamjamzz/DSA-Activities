@@ -1,0 +1,28 @@
+
+--- Linked List ---
+    - A different kind of data structure 
+    - linear sequence 
+
+Cons:
+    - Is more heavy considering that it still need to store a pointer to the next node
+    - Access a certain element through traversing the whole list
+
+Pros:
+    - better memory utilization
+        Linked list is not contigous meaning each node is scattered to different parts of the heap memory 
+        but depends on the scenario consdering that elements are found anywhere if there is free space 
+    - better data insertion and deletion
+    - no initial size
+
+--- ArrayList ---
+    - requires free memeory compared to arraylist
+    - accesing an index is more faster compared to linked list 
+    - if not able to reallocate will return null or 0
+
+Problem:
+    - justify initial size
+
+Pros:
+    - better memory usage
+    - better element access
+

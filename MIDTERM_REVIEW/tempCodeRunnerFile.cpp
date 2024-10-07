@@ -1,11 +1,13 @@
-            // case 'a':
-            //     student = new Person;
-                
-            //     cout << "Enter name: ";
-            //     cin >> student->name;
+    void swap(node* node1, node* node2){
+        node2->next->prev = node1;
+        node1->prev->next = node2;
 
-            //     cout << "Enter age: ";
-            //     cin >> student->age;
+        node* temp = node1->next;
+        node* temp2 = node2->prev;
 
-            //     list->addbyName(student);
-            //     break;
+        node2->prev = node1->prev;
+        node1->next = node2->next;
+        node1->prev = temp2;
+        node2->next = temp;
+        return;
+    }

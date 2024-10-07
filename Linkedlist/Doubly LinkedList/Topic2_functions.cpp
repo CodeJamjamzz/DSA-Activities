@@ -198,22 +198,52 @@ class List{
     }
 
     int retain(int num){
-        node* prev = nullptr;
         node* curr = head;
+        node* prev = nullptr;
+        int ctr = 0;
 
-        int ctr = 0, i = 0;
         while(curr != nullptr){
-            node *next = curr->next;
-                if(curr->elem < num){
-                    removeBetween(curr);
-                    ctr++;
+            
+            if(curr->elem >= num){
+
+                if(prev == nullptr){
+                    prev = curr;
+
+                    if(curr == tail){
+                        tail = prev;
+                        head = prev;
+                        return ctr;
+                    }
+
+                    head = prev;
+                } else {
+
+                    prev->next = curr;
+                    curr->prev = prev;
+                    prev = prev->next;
+
                 }
 
-            curr = next;
+            } else {
+                size--;
+                ctr++;
+                if(size == 0 && curr == head) {
+                    head = nullptr;
+                    tail = nullptr;
+                    return ctr;
+                } else if (size == 0 && curr == tail){
+                    head = nullptr;
+                    tail = nullptr;
+                    return ctr;
+                }
+            }
+
+            curr = curr->next;
         }
 
+        tail = prev;
+        tail->next = nullptr;
         return ctr;
-
     }
 
     int corner(int left, int right){
@@ -227,10 +257,6 @@ class List{
         for(int i = 0; i < right; i++){
             end = end->prev;
         }
-
-        if(size % 2 == 0){
-            end = end->next;
-        } 
 
         // node* curr = start;
         // int r = 0;
